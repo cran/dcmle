@@ -1,0 +1,12 @@
+723b6d1149bd27d4b8217f0ee02324c7 *DESCRIPTION
+8d812fdd5eb9eb0d4dd6621a89c6ecc1 *NAMESPACE
+84f9fd7782be4c59b4285308e3645c52 *R/dcmle-classes.R
+4da3a731335fef03df592ce4991578f5 *R/dcmle-methods.R
+fed1c5f9bd2d2c9260aa7d61112476fc *R/dcmle.R
+6a3d94558420edb692880ea882008032 *R/zzz.R
+f65bbf3f3a784599521675cf6134dbac *inst/COPYING
+9b9126e88b31d35096a1370d0967217b *inst/ChangeLog
+ad4dbab12261f48a30f5cdbb5191f7b9 *man/dcmle-classes.Rd
+c989481b516839d7a55774c35c6b555f *man/dcmle-methods.Rd
+22d656038788dfd86f80c7063b0760a6 *man/dcmle-package.Rd
+2272c53419bffb1fecdd824fd7d9ec38 *man/dcmle.Rd
