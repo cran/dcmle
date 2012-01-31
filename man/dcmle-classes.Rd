@@ -11,6 +11,36 @@
 \alias{show,dcMle-method}
 \alias{show,dcFit-method}
 \alias{show,gsFit-method}
+\alias{custommodel}
+\alias{custommodel-class}
+\alias{mcmc}
+\alias{mcmc-class}
+\alias{mcmc.list}
+\alias{mcmc.list-class}
+\alias{mcmc.list}
+\alias{mcmc.list.dc-class}
+\alias{dctable}
+\alias{dctable-class}
+\alias{dcdiag}
+\alias{dcdiag-class}
+\alias{nClones}
+\alias{nClones-class}
+\alias{dcDiag}
+\alias{dcDiag-class}
+\alias{dcTable}
+\alias{dcTable-class}
+\alias{MCMClist}
+\alias{MCMClist-class}
+\alias{dcArgs}
+\alias{dcArgs-class}
+\alias{dcParams}
+\alias{dcParams-class}
+\alias{dcFunction}
+\alias{dcFunction-class}
+\alias{dcInits}
+\alias{dcInits-class}
+\alias{dcModel}
+\alias{dcModel-class}
 \title{
 'dcMle' Classes
 }
@@ -22,8 +52,8 @@ and corresponding creator functions.
 makeGsFit(data, model, params = NULL, inits = NULL)
 
 makeDcFit(data, model, params=NULL, inits = NULL,
-multiply = NULL, unchanged = NULL, update = NULL,
-updatefun = NULL, initsfun = NULL, flavour)
+    multiply = NULL, unchanged = NULL, update = NULL,
+    updatefun = NULL, initsfun = NULL, flavour)
 }
 \arguments{
   \item{data}{usually a named list with data.}
@@ -71,7 +101,7 @@ if required.
 }
 \value{
 The class 'gsFit' has the following slots
-(data and model are essential, others are optional):
+(\code{data} and \code{model} are essential, others are optional):
 \itemize{
   \item{\code{data}:}{ usually a named list with data.}
   \item{\code{model}:}{ BUGS model (function, character vector or
@@ -100,16 +130,27 @@ ones from 'gsFit':
 
 The class 'dcMle' has the following slots:
 \itemize{
-  \item{\code{mcmc}:}{ a fitted mcmc.list object.}
-  \item{\code{summary}:}{ Wald-type summary based on the mcmc.list.}
-  \item{\code{dctable}:}{ summary statistics of iterative fitting (\code{\link[dclone]{dctable}}).}
-  \item{\code{dcdiag}:}{ data cloning diagnostics (\code{\link[dclone]{dcdiag}}).}
+  \item{\code{mcmc}:}{ a fitted 'mcmc.list' object.}
+  \item{\code{summary}:}{ Wald-type summary based on the 'mcmc.list'.}
+  \item{\code{dctable}:}{ summary statistics of iterative fitting 
+    (see \code{\link[dclone]{dctable}}).}
+  \item{\code{dcdiag}:}{ data cloning diagnostics 
+    (see \code{\link[dclone]{dcdiag}}).}
   \item{\code{start}:}{ first MCMC iteration.}
   \item{\code{end}:}{ last MCMC iteration.}
   \item{\code{thin}:}{ thinning value used for MCMC chain.}
   \item{\code{n.chains}:}{ number of MCMC chains.}
   \item{\code{n.clones}:}{ number of clones of the final mcmc.list.}
 }
+
+The classes 'custommodel', 'mcmc', 'mcmc.list',
+'mcmc.list.dc', 'dctable', 'dcdiag' are virtual S4 classes
+defined after S3 representatives in the \pkg{coda}
+and \pkg{dclone} packages.
+
+The classes 'nClones', 'dcDiag', 'dcTable', 'MCMClist', 'dcArgs',
+'dcParams', 'dcFunction', 'dcInits', 'dcModel' are
+class unions for slots of 'gsFit', 'dcFit' and 'dcMle'.
 }
 \author{
 Peter Solymos <solymos@ualberta.ca>
