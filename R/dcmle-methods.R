@@ -9,15 +9,20 @@ setMethod("show", "dcMle", function(object) {
             n.iter=object@end-object@start+1,
             n.chains=object@n.chains, n.clones=k)
         digits <- max(3, getOption("digits") - 3)
+        cat("Settings:\n")
         print(n, digits=digits, row.names=FALSE)
-        cat("\n")
+        cat("\nCoefficients:\n")
         printCoefmat(object@summary, digits = digits, signif.legend = TRUE)
-        cat("\n")
+        cat("\nConvergence:\n")
         print(object@dcdiag, digits=digits, row.names=FALSE)
     }
     invisible(object)
 })
 ## show with title is done here
+setGeneric("summary",
+    function(object, ...)
+        standardGeneric("summary")
+)
 setMethod("summary", "dcMle", function(object, title, ...) {
     if (missing(title))
         title <- paste("Object of class \"", class(object)[1L], "\"", sep="")

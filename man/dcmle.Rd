@@ -24,7 +24,8 @@ character, vector of model parameters to monitor.
 integer, vector for the number of clones used in fitting.
 }
   \item{cl}{
-cluster object, optinal.
+cluster object (snow type cluster) 
+or number of cores (multicore type forking), optinal.
 }
   \item{\dots}{
 other arguments passed to underlying functions (see Details).
@@ -94,7 +95,7 @@ paramecium@params <- c("lambda","beta","sigma")
 (m1 <- dcmle(paramecium, n.clones=1, n.iter=1000))
 (m2 <- dcmle(paramecium, n.clones=2, n.iter=1000))
 (m3 <- dcmle(paramecium, n.clones=1:3, n.iter=1000))
-cl <- makeSOCKcluster(3)
+cl <- makePSOCKcluster(3)
 (m4 <- dcmle(paramecium, n.clones=2, n.iter=1000, cl=cl))
 (m5 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl))
 (m6 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl, partype="parchains"))
