@@ -1,12 +1,28 @@
 ## wrapper function
-dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
+## calls the interal .dcmle function and coerces to dcmle S4 class
+dcmle <- function(x, params, n.clones=1, cl=NULL, nobs, ...) {
+    out <- as(dcmle:::.dcmle(x=x, params=params, 
+        n.clones=n.clones, cl=cl, nobs=nobs, ...), "dcmle")
+    out@call <- match.call()
+    if (!missing(nobs))
+        out@nobs <- nobs
+    out
+}
+## internal workhorse returning S3 mcmc.list object
+## this still has updated.model just in case...
+.dcmle <- function(x, params, n.clones=1, cl=NULL, nobs, ...) {
     ## get defaults right for cl argument
+    if (!is.null(cl) && !missing(cl))
+        if (!inherits(cl, "cluster") && cl == 1)
+            cl <- NULL
     cl <- evalParallelArgument(cl)
     ## coerce into dcFit (issue error if it is not possible)
     x <- as(x, "dcFit")
     ## gete params if not defined by argument
     if (missing(params))
         params <- x@params
+    if (is.null(params))
+        stop("'params' must be provided")
     ## make a copy of input model
     model <- x@model
     ## single model
@@ -60,6 +76,6 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
                 flavour = x@flavour, ...)
         }
     }
-    ## return value
-    as(out, "dcMle")
+    out
 }
+

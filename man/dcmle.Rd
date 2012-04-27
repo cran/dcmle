@@ -1,7 +1,7 @@
 \name{dcmle}
 \alias{dcmle}
 \title{
-Asymptotic Maximum Likelihood Estimation with Data Cloning
+Asymptotic maximum likelihood estimation with data cloning
 }
 \description{
 This function is a wrapper to fit the model to the data
@@ -11,11 +11,12 @@ based on the estimate of the Fisher information matrix
 implementation is given in Solymos 2010).
 }
 \usage{
-dcmle(x, params, n.clones = 1, cl = NULL, ...)
+dcmle(x, params, n.clones = 1, cl = NULL, nobs, ...)
 }
 \arguments{
   \item{x}{
-an object of class \code{\link{gsFit}} or \code{\link{dcFit}}.
+an object of class \code{"\linkS4class{gsFit}"}
+or \code{"\linkS4class{dcFit}"}.
 }
   \item{params}{
 character, vector of model parameters to monitor.
@@ -25,7 +26,10 @@ integer, vector for the number of clones used in fitting.
 }
   \item{cl}{
 cluster object (snow type cluster) 
-or number of cores (multicore type forking), optinal.
+or number of cores (multicore type forking), optional.
+}
+  \item{nobs}{
+number of observations, optional.
 }
   \item{\dots}{
 other arguments passed to underlying functions (see Details).
@@ -39,12 +43,12 @@ and passes them as arguments to underlying functions
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}).
 }
 \value{
-An object of class \code{\link{dcMle}}.
+An object of class \code{"\linkS4class{dcmle}"}.
 }
 \references{
 Solymos, P., 2010. dclone: Data Cloning in R.
-\emph{The R Journal} \strong{2(2)}, 29--37.
-URL: \url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf}
+\emph{The R Journal} \strong{2(2)}, 29--37. URL: 
+\url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf}
 
 Lele, S.R., B. Dennis and F. Lutscher, 2007.
 Data cloning: easy maximum likelihood estimation for complex 
@@ -66,11 +70,10 @@ For additional arguments: \code{\link[dclone]{jags.fit}},
 \code{\link[dclone]{bugs.fit}},
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}.
 
-Object classes: \code{\link{dcmle-classes}}
-with creator functions \code{\link{makeGsFit}} and 
-\code{\link{makeDcFit}}
+Object classes: \code{"\linkS4class{dcmle}"}
 
-Methods: \code{\link{dcmle-methods}}
+Creator functions \code{\link{makeGsFit}} and 
+\code{\link{makeDcFit}}
 }
 \examples{
 ## Data and model taken from Ponciano et al. 2009

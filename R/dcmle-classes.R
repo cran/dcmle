@@ -1,5 +1,9 @@
+## ------------------
+## CLASS DEFINITIONS
+## ------------------
+
 ## virtual classes for S3 objects
-setClass("custommodel", representation("VIRTUAL"))
+#setClass("bugs", representation("VIRTUAL"))
 setClass("mcmc", representation("VIRTUAL"))
 setClass("mcmc.list", representation("VIRTUAL"))
 setClass("mcmc.list.dc", representation("VIRTUAL"))
@@ -7,155 +11,198 @@ setClass("dctable", representation("VIRTUAL"))
 setClass("dcdiag", representation("VIRTUAL"))
 
 ## class unions for slots
-setClassUnion("nClones", c("NULL", "numeric"))
 setClassUnion("dcDiag", c("NULL", "dcdiag"))
 setClassUnion("dcTable", c("NULL", "dctable"))
+setClassUnion("nClones", c("NULL", "numeric"))
 setClassUnion("MCMClist", c("mcmc", "mcmc.list", "mcmc.list.dc"))
-setClassUnion("dcArgs", c("NULL", "character"))
-setClassUnion("dcParams", c("NULL", "character", "list"))
-setClassUnion("dcFunction", c("NULL", "function"))
-setClassUnion("dcInits", c("NULL", "list", "function"))
-setClassUnion("dcModel", c("function", "character", "custommodel"))
 
-## data/model templates
-setClass("gsFit", 
+## this is an S4 class for mcmc.list of coda style
+setClass("codaMCMC", 
     representation(
-        data = "list",
-        model = "dcModel",
-#        model = "character",
-        params = "dcParams",
-        inits = "dcInits"),
-    prototype = list(
-        data = list(),
-        model = character(0),
-        params = NULL,
-        inits = NULL))
-setClass("dcFit",
-    representation(
-        multiply = "dcArgs",
-        unchanged = "dcArgs",
-        update = "dcArgs",
-        updatefun = "dcFunction",
-        initsfun = "dcFunction",
-        flavour = "character"),
-    contains = "gsFit",
-    prototype = list(
-        params = NULL,
-        multiply = NULL,
-        unchanged = NULL,
-        update = NULL,
-        updatefun = NULL,
-        initsfun = NULL,
-        flavour = "jags"))
+        values = "numeric",
+        varnames = "character",
+        start = "integer",
+        end = "integer",
+        thin = "integer",
+        nchains = "integer",
+        niter = "integer",
+        nvar = "integer"),
+    validity=function(object) {
+        if (length(object@varnames) != object@nvar)
+            stop("length of varnames must equal nvar")
+        if (length(object@values) != object@niter*object@nchains*object@nvar)
+            stop("number of values must equal prod(dim)")
+        checkfun <- function(z) {
+            length(z) > 1 || all(is.na(z)) || z < 0
+        }
+        if (checkfun(object@start))
+            stop("inadequate start value")
+        if (checkfun(object@end))
+            stop("inadequate end value")
+        if (checkfun(object@thin))
+            stop("inadequate thin value")
+        if (checkfun(object@nchains))
+            stop("inadequate nchains value")
+        if (checkfun(object@niter))
+            stop("inadequate niter value")
+        if (checkfun(object@nvar))
+            stop("inadequate nvar value")
+        if ((object@end-object@start+object@thin)/object@thin != object@niter)
+            stop("thin, start and end values are incompatible with niter")
+        TRUE
+    })
 
-## coercion (reverse is automatic based on inheritence)
-setAs(from = "gsFit", to = "dcFit", def = function(from) {
-    out <- new("dcFit")
-    out@data <- from@data
-    out@model <- from@model
-    out@inits <- from@inits
-    out@params <- from@params
-    out
-})
-
-## fitted model opject
-setClass("dcMle", 
+## all DC info with MCMC list
+setClass("dcCodaMCMC", 
+    contains = "codaMCMC",
     representation(
-        mcmc = "MCMClist",
-        summary = "matrix",
         dctable = "dcTable",
         dcdiag = "dcDiag",
-        start = "numeric",
-        end = "numeric",
-        thin = "numeric",
-        n.chains = "numeric",
-        n.clones = "nClones"),
-    prototype = list(
-        mcmc = as.mcmc(matrix(0,0,0)),
-        summary = matrix(0,0,0),
-        diag = NULL,
-        start = numeric(0),
-        end = numeric(0),
-        thin = numeric(0),
-        n.chains = numeric(0),
-        n.clones = NULL))
+        nclones = "nClones"))
 
-## coercion from mcmc.list/mcmc.list.dc
-setAs(from = "MCMClist", to = "dcMle", def = function(from) {
-    rval <- new("dcMle")
-    if (!is.null(nclones(from))) {
-        coefs <- coef(from)
-        se <- dcsd(from)
-        zstat <- coefs/se
-        pval <- 2 * pnorm(-abs(zstat))
-        coefs <- cbind(coefs, se, zstat, pval)
-        colnames(coefs) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
-        rval@summary <- coefs
-    }
-    dcd <- try(dcdiag(from), silent=TRUE)
-    if (inherits(dcd, "try-error")) {
-        dcd <- NULL
-    } else {
-        rownames(dcd) <- NULL
-    }
-    dct <- try(dctable(from), silent=TRUE)
-    if (inherits(dct, "try-error")) {
-        dct <- NULL
-    } else {
-        dct <- lapply(dct, function(z) {
-            rownames(z) <- NULL
-            z
-        })
-        class(dct) <- "dctable"
-    }
-    rval@mcmc <- from
-    attr(rval@mcmc, "dcdiag") <- NULL
-    attr(rval@mcmc, "dctable") <- NULL
-    rval@dcdiag <- dcd
-    rval@dctable <- dct
-    rval@start <- start(from)
-    rval@end <- end(from)
-    rval@thin <- thin(from)
-    rval@n.chains <- length(from)
-    rval@n.clones <- nclones(from)
-    rval
+setClass("dcmle", 
+    representation(
+        call     = "language",
+        coef     = "numeric",
+        fullcoef = "numeric", 
+        vcov     = "matrix",
+        details  = "dcCodaMCMC",
+        nobs     = "integer",
+        method   = "character"))
+
+## ------------------
+## COERCION METHODS
+## ------------------
+
+## coercion method (ignores any DC info)
+setAs(from = "MCMClist", to = "codaMCMC", def = function(from) {
+    from <- as.mcmc.list(from)
+    val <- unname(as.array(from))
+    dim(val) <- NULL
+    vn <- varnames(from)
+    if (is.null(vn))
+        vn <- paste("var", 1:nvar(from), sep="")
+    new("codaMCMC",
+        values = as.numeric(val),
+        varnames = as.character(vn),
+        start = as.integer(start(from)),
+        end = as.integer(end(from)),
+        thin = as.integer(thin(from)),
+        nchains = as.integer(length(from)),
+        niter = as.integer(niter(from)),
+        nvar = as.integer(nvar(from)))
 })
-## reverse coercion
-setAs(from = "dcMle", to = "MCMClist", def = function(from) {
-    out <- from@mcmc
-    attr(out, "dcdiag") <- from@dcdiag
-    attr(out, "dctable") <- from@dctable
+setAs(from = "MCMClist", to = "dcCodaMCMC", def = function(from) {
+    k <- nclones(from)
+    if (is.null(k))
+        k <- NA
+    dcd <- dcdiag(from)
+    if (nrow(dcd) == 1)
+        rownames(dcd) <- deparse(substitute(from))
+    new("dcCodaMCMC", 
+        as(from, "codaMCMC"),
+        dcdiag = dcd,
+        dctable = dctable(from),
+        nclones = nclones(from))
+})
+setAs(from = "MCMClist", to = "dcmle", def = function(from) {
+    details <- as(from, "dcCodaMCMC")
+    cfs <- coef(from)
+    vcv <- vcov(from)
+    if (is.null(names(cfs))) {
+        nam <- paste("var", 1:nvar(from), sep="")
+        names(cfs) <- nam
+        dimnames(vcv) <- list(nam, nam)
+    }
+    new("dcmle",
+#        call     = match.call(),
+        coef     = cfs,
+        fullcoef = cfs, 
+        vcov     = vcv,
+        details  = details,
+        nobs     = as.integer(NA),
+        method   = "DataCloningMCMC")
+})
+## inverse coercion
+setAs(from = "codaMCMC", to = "MCMClist", def = function(from) {
+    a <- array(from@values, c(from@niter, from@nvar, from@nchains))
+    m <- lapply(seq_len(from@nchains), function(i) {
+        mcmc(a[,,i], start=from@start, end=from@end, thin=from@thin)
+    })
+    out <- as.mcmc.list(m)
+    varnames(out) <- from@varnames
     out
 })
+setAs(from = "dcCodaMCMC", to = "MCMClist", def = function(from) {
+    a <- array(from@values, c(from@niter, from@nvar, from@nchains))
+    m <- lapply(seq_len(from@nchains), function(i) {
+        mcmc(a[,,i], start=from@start, end=from@end, thin=from@thin)
+    })
+    out <- as.mcmc.list(m)
+    varnames(out) <- from@varnames
+    attr(out, "dcdiag") <- from@dcdiag
+    attr(out, "dctable") <- from@dctable
+    if (!is.null(from@nclones)) {
+        attr(out, "n.clones") <- from@nclones
+        class(out) <- c("mcmc.list.dc","mcmc.list")
+    }
+    out
+})
+setAs(from = "dcmle", to = "MCMClist", def = function(from) {
+    as(from@details, "MCMClist")
+})
+setAs(from = "dcmle", to = "codaMCMC", def = function(from) {
+    as(from@details, "codaMCMC")
+})
+setAs(from = "dcmle", to = "dcCodaMCMC", def = function(from) {
+    from@details
+})
+#setAs(from = "codaMCMC", to = "dcmle", def = function(from) {
+#    new("dcmle", details=as(from, "dcCodaMCMC"))
+#})
+#setAs(from = "dcCodaMCMC", to = "dcmle", def = function(from) {
+#    new("dcmle", details=from)
+#})
+setAs(from = "codaMCMC", to = "dcmle", def = function(from) {
+    details <- as(from, "dcCodaMCMC")
+    cfs <- coef(from)
+    vcv <- vcov(from)
+    if (is.null(names(cfs))) {
+        nam <- paste("var", 1:nvar(from), sep="")
+        names(cfs) <- nam
+        dimnames(vcv) <- list(nam, nam)
+    }
+    new("dcmle",
+#        call     = match.call(),
+        coef     = cfs,
+        fullcoef = cfs, 
+        vcov     = vcv,
+        details  = details,
+        nobs     = as.integer(NA),
+        method   = "DataCloningMCMC")
+})
+setAs(from = "dcCodaMCMC", to = "dcmle", def = function(from) {
+    cfs <- coef(from)
+    vcv <- vcov(from)
+    if (is.null(names(cfs))) {
+        nam <- paste("var", 1:nvar(from), sep="")
+        names(cfs) <- nam
+        dimnames(vcv) <- list(nam, nam)
+    }
+    new("dcmle",
+#        call     = match.call(),
+        coef     = cfs,
+        fullcoef = cfs, 
+        vcov     = vcv,
+        details  = from,
+        nobs     = as.integer(NA),
+        method   = "DataCloningMCMC")
+})
 
-## creator function for gsFit
-makeGsFit <- 
-function(data, model, params=NULL, inits=NULL)
-{
-    x <- new("gsFit")
-    x@data <- data
-#    x@model <- unclass(custommodel(model))
-#    x@model <- custommodel(model)
-    x@model <- model
-    x@params <- params
-    x@inits <- inits
-    x
-}
-## creator function for dcFit
-makeDcFit <- 
-function(data, model, params=NULL, inits=NULL,
-multiply=NULL, unchanged=NULL, update=NULL,
-updatefun=NULL, initsfun=NULL, flavour)
-{
-    if (missing(flavour))
-        flavour <- getOption("dcmle.flavour")
-    x <- makeGsFit(data, model, params, inits)
-    x <- as(x, "dcFit")
-    x@multiply <- multiply
-    x@unchanged <- unchanged
-    x@update <- update
-    x@updatefun <- updatefun
-    x@initsfun <- initsfun
-    x@flavour <- flavour
-    x
-}
+## and as.mcmc.list method
+setMethod("as.mcmc.list", "dcmle", function(x, ...) {
+    as(x, "MCMClist")
+})
+setMethod("as.mcmc.list", "codaMCMC", function(x, ...) {
+    as(x, "MCMClist")
+})
