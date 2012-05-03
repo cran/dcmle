@@ -12,15 +12,14 @@ models easy as a breeze.
 }
 \details{
 The package defines S4 object classes for plain BUGS models 
-(\code{\link{gsFit}}, after BU*GS*/JA*GS*),
-and BUGS models made ready for data cloning (\code{\link{dcFit}}).
+(\code{"\linkS4class{gsFit}"}, after BU*GS*/JA*GS*),
+and BUGS models made ready for data cloning (\code{"\linkS4class{dcFit}"}).
 It also defines virtual classes for S3 object classes defined in
 the \pkg{dclone} and \pkg{coda} packages. 
 
-The S4 class \code{\link{dcMle}} is a fitted 
+The S4 class \code{"\linkS4class{dcmle}"} is a fitted 
 model object containing MCMC results as returned by the
-\code{\link{dcmle}} function. Methods are defined
-for \code{\link{dcMle}} object class, see \code{\link{dcmle-methods}}. 
+\code{\link{dcmle}} function. 
 These object classes are easily
 extensible to allow inclusion into functions fitting
 specific models to the data (see Examples).
@@ -44,11 +43,11 @@ Maintainer: Peter Solymos <solymos@ualberta.ca>
 \seealso{
 Fitting wrapper function: \code{\link{dcmle}}
 
-Object classes: \code{\link{dcmle-classes}},
-with creator functions \code{\link{makeGsFit}} and 
-\code{\link{makeDcFit}}
+Object classes: \code{"\linkS4class{dcmle}"},
+\code{"\linkS4class{codaMCMC}"}, \code{"\linkS4class{dcCodaMCMC}"}
 
-Methods: \code{\link{dcmle-methods}}
+Creator functions \code{\link{makeGsFit}} and 
+\code{\link{makeDcFit}}
 }
 \examples{
 ## Data and model taken from Ponciano et al. 2009
@@ -84,21 +83,17 @@ bevholtFit <- function(y) {
 ## it can have additional slots
 setClass("bevholtMle", 
     representation(y="numeric", title="character"), 
-    contains = "dcMle")
+    contains = "dcmle")
 ## Function to fit the Beverton-Holt model to data
 bevholt <- function(y, n.clones, ...) {
-    x <- as(dcmle(bevholtFit(y), n.clones=n.clones, ...), "bevholtMle")
-    x@y <- y
-    x@title <- "Beverton-Holt Model"
-    x
+    new("bevholtMle",
+        dcmle(bevholtFit(y), n.clones=n.clones, ...),
+        y = y,
+        title = "Beverton-Holt Model")
 }
 ## Show method with appropriate heading
-## Note: use getMethod to avoid frustration from namespace import/export
-## this way it will work in a package that depends on dcmle
-setMethod("show", "bevholtMle", function(object) {
-    getMethod("summary","dcMle")(as(object, "dcMle"), object@title)
-    invisible(object)
-})
+setMethod("show", "bevholtMle", function(object)
+    show(summary(as(object, "dcmle"), object@title)))
 paurelia <- c(17,29,39,63,185,258,267,392,510,
     570,650,560,575,650,550,480,520,500)
 \dontrun{

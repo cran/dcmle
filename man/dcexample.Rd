@@ -37,7 +37,7 @@ The default path to the examples directory is stored by the
 Peter Solymos <solymos@ualberta.ca>
 }
 \seealso{
-\code{\link{dcmle-classes}}
+\code{"\linkS4class{dcmle}"}, \code{\link{dcmle}}
 }
 \examples{
 \dontrun{
