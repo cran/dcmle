@@ -1,4 +1,4 @@
-a36f6350e2502c99af225c6520f4d5af *DESCRIPTION
+d1db6b97909bcb7201901b5b5c5618ce *DESCRIPTION
 c117e4c4a09184718ada40f8aa834f87 *NAMESPACE
 53f08cad3fd9db47c048eec8fd1e4dd3 *R/datatypes.R
 e084aa7bfb18fe700ee9c47de56f932e *R/dcexample.R
@@ -7,7 +7,7 @@ e084aa7bfb18fe700ee9c47de56f932e *R/dcexample.R
 635a13e4ed8847e80c983da2d42085a1 *R/dcmle-methods.R
 98693b70a12b87f51da4106df674b315 *R/dcmle.R
 c22e85aa09fd17ac6e22b369e955f361 *R/zzz.R
-24bc5a3ea7d6ff878892a2893d8644c6 *inst/ChangeLog
+f1e00abb1a9829bb3953da773638617e *inst/ChangeLog
 fa47b62ae5b1993f48f4b8bf6df91e72 *man/MCMClist-class.Rd
 def7b4d3d14f1b15dc3402c883c0d2ab *man/chanames.Rd
 860eeea1832519893cf777ce13a148af *man/codaMCMC-class.Rd
