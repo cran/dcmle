@@ -1,8 +1,8 @@
 Package: dcmle
 Type: Package
 Title: Hierarchical Models Made Easy with Data Cloning
-Version: 0.2-1
-Date: 2012-05-13
+Version: 0.2-2
+Date: 2012-07-06
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: S4 classes around infrastructure provided by the dclone
@@ -17,6 +17,6 @@ URL: http://cran.r-project.org/package=dcmle,
         http://dcr.r-forge.r-project.org/
 LazyLoad: yes
 LazyData: true
-Packaged: 2012-05-14 15:19:14 UTC; peter
+Packaged: 2012-07-06 21:02:12 UTC; Peter
 Repository: CRAN
-Date/Publication: 2012-05-14 15:33:06
+Date/Publication: 2012-07-07 06:52:12

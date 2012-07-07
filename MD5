@@ -1,13 +1,13 @@
-d1db6b97909bcb7201901b5b5c5618ce *DESCRIPTION
+926d4a063eaa9260f82b7b0c522986d9 *DESCRIPTION
 c117e4c4a09184718ada40f8aa834f87 *NAMESPACE
 53f08cad3fd9db47c048eec8fd1e4dd3 *R/datatypes.R
 e084aa7bfb18fe700ee9c47de56f932e *R/dcexample.R
-7c7e0336fecad84310153dea10a7b3e0 *R/dcmle-classes.R
+92ed9adc322c4be4e077eeda3f373158 *R/dcmle-classes.R
 70cab7f1e8a20dad365780d97f9bfa71 *R/dcmle-graphics.R
 635a13e4ed8847e80c983da2d42085a1 *R/dcmle-methods.R
 98693b70a12b87f51da4106df674b315 *R/dcmle.R
 c22e85aa09fd17ac6e22b369e955f361 *R/zzz.R
-f1e00abb1a9829bb3953da773638617e *inst/ChangeLog
+06f8acbda98e79447b78056d9019e23c *inst/ChangeLog
 fa47b62ae5b1993f48f4b8bf6df91e72 *man/MCMClist-class.Rd
 def7b4d3d14f1b15dc3402c883c0d2ab *man/chanames.Rd
 860eeea1832519893cf777ce13a148af *man/codaMCMC-class.Rd
