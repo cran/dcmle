@@ -1,11 +1,28 @@
 dcmle package version history
 
+Version 0.2-4, Sept 27, 2013
+    * Reference for .GlobalEnv replaced by parent.frame() in
+      sourceDcExample, also the assign.global argument is no
+      longer used. The envir argument can be set instead.
+      No assignement is made when envir=NULL.
+    * gelman.plot generic documentation added.
+    * dcmle: reflects changes in dclone due to addition of
+      bugs.parfit and all partypes in dc.parfit.
+    * flavour slot can be 'jags', 'bugs', or any of
+      'winbugs', 'openbugs', 'brugs' referring to the
+      program argument in bugs.*fit.
+    * Removed ::: to satisfy R 3.0.2 check.
+
+Version 0.2-3, March 1, 2013
+    * gsFit: gained flavour argument.
+    * gelman.plot: now implemented for dcmle classes as generic.
+
 Version 0.2-2, July 6, 2012
     * Inverse coercion methods (as.mcmc.list) failed with nvar=1 cases,
       it is now fixed.
 
 Version 0.2-1, May 13, 2012
-    * Depends: R (>= 2.15.0). Old versions of R filed under MacOS
+    * Depends: R (>= 2.15.0). Old versions of R failed under MacOS
       and Windows (reported by Uwe Ligges).
 
 Version 0.2-0, April 27, 2012
