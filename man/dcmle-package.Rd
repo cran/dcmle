@@ -24,12 +24,6 @@ model object containing MCMC results as returned by the
 These object classes are easily
 extensible to allow inclusion into functions fitting
 specific models to the data (see Examples).
-
-\code{\link{sourceDcExample}} can be used to get
-examples from \url{http://dcr.r-forge.r-project.org/examples}
-gathered from various sources (WinBUGS Manual, articles, books, etc.).
-This under continuous development, and used in the testing suite
-of the \pkg{dclone} package. Contributions of examples are welcome.
 }
 \author{
 Peter Solymos
@@ -37,8 +31,11 @@ Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
-\url{http://cran.r-project.org/package=dcmle}, 
-\url{http://dcr.r-forge.r-project.org}
+Forum: \url{https://groups.google.com/forum/#!forum/dclone-users}
+
+Issues: \url{https://github.com/datacloning/dcmle/issues}
+
+Data cloning website: \url{http://datacloning.org}
 }
 \keyword{ package }
 \seealso{
@@ -82,7 +79,7 @@ makeDcFit(
   unchanged = "n",
   params <- c("lambda","beta","sigma"))
 }
-## S4 class 'bevholtMle' extends the 'dcMle' class
+## S4 class 'bevholtMle' extends the 'dcmle' class
 ## it can have additional slots
 setClass("bevholtMle", 
     representation(y="numeric", title="character"), 
