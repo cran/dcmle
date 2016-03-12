@@ -1,5 +1,12 @@
 # dcmle package version history
 
+## Version 0.3-1, Jan 14, 2016
+
+    * str method for dcCodaMCMC class confusingly parsed the object
+      as and mcmc.list (MCMClist) object. The true S4 nature of the
+      object is now revealed (show method also relies on str).
+    * snowWrapper in dclone is now deprecated, NAMESPACE reflects this.
+
 ## Version 0.3-0, Jan 12, 2016
 
     * NAMESPACE changes triggered by CRAN checks.
