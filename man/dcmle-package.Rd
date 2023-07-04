@@ -28,14 +28,14 @@ specific models to the data (see Examples).
 \author{
 Peter Solymos
 
-Maintainer: Peter Solymos <solymos@ualberta.ca>
+Maintainer: Peter Solymos <psolymos@gmail.com>
 }
 \references{
 Forum: \url{https://groups.google.com/forum/#!forum/dclone-users}
 
 Issues: \url{https://github.com/datacloning/dcmle/issues}
 
-Data cloning website: \url{http://datacloning.org}
+Data cloning website: \url{https://datacloning.org}
 }
 \keyword{ package }
 \seealso{
