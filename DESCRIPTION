@@ -1,9 +1,14 @@
 Package: dcmle
 Type: Package
 Title: Hierarchical Models Made Easy with Data Cloning
-Version: 0.4-1
-Date: 2023-07-04
-Author: Peter Solymos
+Version: 0.4-2
+Date: 2025-07-12
+Authors@R: 
+    c(person(given = "Peter",
+             family = "Solymos",
+             comment = c(ORCID = "0000-0001-7337-1740"),
+             role = c("aut", "cre"),
+             email = "psolymos@gmail.com"))
 Maintainer: Peter Solymos <psolymos@gmail.com>
 Description: S4 classes around infrastructure provided by the
     'coda' and 'dclone' packages to make package development easy as a breeze
@@ -18,6 +23,8 @@ URL: https://groups.google.com/forum/#!forum/dclone-users,
 BugReports: https://github.com/datacloning/dcmle/issues
 LazyLoad: yes
 NeedsCompilation: no
-Packaged: 2023-07-04 07:32:14 UTC; Peter
+Packaged: 2025-07-13 22:34:20 UTC; Peter
+Author: Peter Solymos [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-7337-1740>)
 Repository: CRAN
-Date/Publication: 2023-07-04 21:13:01 UTC
+Date/Publication: 2025-07-13 23:30:02 UTC

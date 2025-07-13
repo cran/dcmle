@@ -1,4 +1,4 @@
-ec6540965b0923c1ee76caec7fdb379a *DESCRIPTION
+383178729984ccd7fb8bc8f7ba3e1f17 *DESCRIPTION
 279c0af0e169d5e390197954d49184e4 *NAMESPACE
 bd2fc5c97b6eba6d9477e4b4fbd43d0d *R/datatypes.R
 846338758569d3935576d9ed1a25c81f *R/dcmle-classes.R
@@ -15,7 +15,7 @@ c10e012de632eb8a8260ba3cc0569b86 *man/MCMClist-class.Rd
 6cf9cdf53badefc5a5c19cb9b05ac06d *man/custommodel-class.Rd
 c5577d7de8cb845357bb303686efae78 *man/dcArgs-class.Rd
 d6420077fd141745213317e442ebe908 *man/dcCodaMCMC-class.Rd
-77b2144e8ecd9bbe48c7bc8f76b22d6f *man/dcFit-class.Rd
+ce06f3e59d4ff85e247c40dccca67029 *man/dcFit-class.Rd
 274fa4fecba6e982d1cac2f3e6be729c *man/dcFunction-class.Rd
 ebefe373a54f595e8cfc70634a4c631d *man/dcInits-class.Rd
 8ec67c8ca71e61a27bfd27593a621c28 *man/dcModel-class.Rd
@@ -28,7 +28,7 @@ e86923f58053505aa7308c17973b1f44 *man/dcmle-package.Rd
 a5af91ac8370d352bdeede5cec70e63c *man/dctable-class.Rd
 2693f4509300a6487708c255a26bcf2e *man/dctable_1-class.Rd
 a63b234208ea6c13e25f8e65496e8445 *man/diagnostics.Rd
-3d8413d88cc060444d5e86b4cea6edfd *man/gsFit-class.Rd
+85bd64acd8e588001ff3e90b7407fb89 *man/gsFit-class.Rd
 31e5f444b689ebd4172b5f00a5df25bb *man/makefit.Rd
 f8ccd2a1276145afa36e281121868083 *man/mcmc-class.Rd
 af085c2656a8b672fa8209be1ad486fa *man/mcmc.list-class.Rd
